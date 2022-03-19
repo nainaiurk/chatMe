@@ -43,8 +43,8 @@ dependencies:
   image_picker: ^0.8.4+11
   image_cropper: ^1.5.0
   firebase_storage: ^10.2.9
-  firebase_storage_web: ^3.2.10
-  cached_network_image: ^3.2.0
+  story_view: ^0.13.2
+  flutter_instagram_stories: ^1.0.1+1
 
 dev_dependencies:
   flutter_test:

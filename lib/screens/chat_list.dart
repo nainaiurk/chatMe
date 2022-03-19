@@ -4,8 +4,10 @@
 import 'package:chat_me/UserInfo.dart';
 import 'package:chat_me/screens/AllUser.dart';
 import 'package:chat_me/screens/ChatDetails.dart';
+import 'package:chat_me/screens/add%20story.dart';
 import 'package:chat_me/screens/drawer_screen/profile_page.dart';
 import 'package:chat_me/screens/login_screen.dart';
+import 'package:chat_me/screens/stories.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -181,24 +183,55 @@ class _ChatListState extends State<ChatList> {
                   padding: const EdgeInsets.only(right: 10,left: 10),
                   child: Row(
                     children: [
-                      CircleAvatar(
-                          radius: 30,
-                          child: Icon(Icons.add_a_photo_outlined),
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(
+                            context, 
+                            MaterialPageRoute(builder: (context)=>AddStory())
+                          );
+                        },
+                        child: CircleAvatar(
+                            radius: 30,
+                            child: Icon(Icons.add_a_photo_outlined),
+                        ),
                       ),
                       Container(
                         height: 50,
                         width: MediaQuery.of(context).size.width*0.73,
-                        child: ListView.builder(
-                          itemCount: 20,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context,i){
-                            return CircleAvatar(
-                              radius: 30,
-                            );
-                          }
+                        child: StreamBuilder<QuerySnapshot>(
+                          stream: firestore2.collection('Users').snapshots(),
+                          builder: (context,snapshot){
+                            if(snapshot.hasError){
+                              return Text('Something went wrong');
+                            }
+                            if (!snapshot.hasData){
+                              return Center(child: CircularProgressIndicator());
+                            }
+                            else{
+                              final data = snapshot.data!.docs;
+                              return ListView.builder(
+                                itemCount: data.length,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context,i){
+                                  return GestureDetector(
+                                    onTap: (){
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context)=>StoryPage())
+                                      );
+                                    },
+                                    child: CircleAvatar(
+                                      radius: 30,
+                                      foregroundImage: NetworkImage(data[i]['dp']),
+                                    ),
+                                  );
+                                }
+                              );
+                            }
+                          },
                         ),
-                      ),
-                    ],
+                      )
+                    ]
                   ),
                 ),
                 Container(
@@ -325,5 +358,6 @@ class _ChatListState extends State<ChatList> {
         });
       });
     }
+  
   
 }
