@@ -25,6 +25,7 @@ class _ChatDetailsState extends State<ChatDetails> {
   String currentUID = '';
   String currentUserName = '';
   String currentUserNumber = '';
+  String currentUserDp = '';
   late bool isMe;
   FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -218,7 +219,7 @@ class _ChatDetailsState extends State<ChatDetails> {
     .doc(currentEmail).set({
       'Name': currentUserName,
       'Email': currentEmail,
-      'dp':widget.receiverdp,
+      'dp':currentUserDp,
       'timestamp': FieldValue.serverTimestamp(),
     }
     );
@@ -276,6 +277,7 @@ class _ChatDetailsState extends State<ChatDetails> {
         setState(() {
           currentUserName = snapshot.get('Name').toString();
           currentUserNumber = snapshot.get('Mobile').toString();
+          currentUserDp = snapshot.get('dp').toString();
         });
       });
     }
