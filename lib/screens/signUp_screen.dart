@@ -40,7 +40,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 children: [
                   Hero(
                     tag: 'logo',
-                    child: Image.asset('smiley.png',height: 100,)
+                    child: Image.asset('assets/smiley.png',height: 100,)
                   ),
                   Hero(
                     tag: 'title',

@@ -1,11 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'dart:io';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -23,7 +21,6 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
     inputData();
     getCurrentData();
-    print(profilePic);
   }
 
   var pimage;
@@ -45,36 +42,36 @@ class _ProfilePageState extends State<ProfilePage> {
       source: ImageSource.gallery,
       maxHeight: 500
     );
-    if (kIsWeb){
-      setState(() {
-        pimage = NetworkImage(image!.path);
-      });
-    }
-    else{
-      // File? croppedFile = await ImageCropper().cropImage(
-      //   sourcePath: image!.path,
-      //   aspectRatioPresets: [
-      //     CropAspectRatioPreset.square,
-      //     CropAspectRatioPreset.ratio3x2,
-      //     CropAspectRatioPreset.original,
-      //     CropAspectRatioPreset.ratio4x3,
-      //     CropAspectRatioPreset.ratio16x9
-      //   ],
-      //   androidUiSettings: AndroidUiSettings(
-      //       toolbarTitle: 'Cropper',
-      //       toolbarColor: Colors.deepOrange,
-      //       toolbarWidgetColor: Colors.white,
-      //       initAspectRatio: CropAspectRatioPreset.original,
-      //       lockAspectRatio: false
-      //     ),
-      //   // iosUiSettings: IOSUiSettings(
-      //   //   minimumAspectRatio: 1.0,
-      //   // )
-      // );
-      setState(() {
-        pimage = FileImage(File(image!.path,));
-      });
-    }
+    // if (kIsWeb){
+    //   setState(() {
+    //     pimage = NetworkImage(image!.path);
+    //   });
+    // }
+    // else{
+    //   // File? croppedFile = await ImageCropper().cropImage(
+    //   //   sourcePath: image!.path,
+    //   //   aspectRatioPresets: [
+    //   //     CropAspectRatioPreset.square,
+    //   //     CropAspectRatioPreset.ratio3x2,
+    //   //     CropAspectRatioPreset.original,
+    //   //     CropAspectRatioPreset.ratio4x3,
+    //   //     CropAspectRatioPreset.ratio16x9
+    //   //   ],
+    //   //   androidUiSettings: AndroidUiSettings(
+    //   //       toolbarTitle: 'Cropper',
+    //   //       toolbarColor: Colors.deepOrange,
+    //   //       toolbarWidgetColor: Colors.white,
+    //   //       initAspectRatio: CropAspectRatioPreset.original,
+    //   //       lockAspectRatio: false
+    //   //     ),
+    //   //   // iosUiSettings: IOSUiSettings(
+    //   //   //   minimumAspectRatio: 1.0,
+    //   //   // )
+    //   // );
+    //   setState(() {
+    //     pimage = FileImage(File(image!.path,));
+    //   });
+    // }
     var file = File(image!.path);
     if (image != null){
         //Upload to Firebase
@@ -94,103 +91,105 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Container(
-            color: Colors.lightBlue,
-            height: MediaQuery.of(context).size.height * .4,
-            child: Column(
-              //mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(30),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          }, 
-                          icon: Icon(Icons.arrow_back_ios,color: Colors.white,)
-                      ),
-                      Text(
-                        currentUserName,
-                        style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white
-                          ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          // addProfile(imageUrl);
-                        }, 
-                        icon: Icon(Icons.search,color: Colors.white,)
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(bottom: 20),
-                  child: Stack(
-                    children: [
-                      CircleAvatar(
-                        foregroundImage: NetworkImage(
-                          profilePic.toString(),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Container(
+              color: Colors.lightBlue,
+              height: MediaQuery.of(context).size.height * .4,
+              child: Column(
+                //mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(30),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            }, 
+                            icon: Icon(Icons.arrow_back_ios,color: Colors.white,)
                         ),
-                        radius: 80,
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        right: 20,
-                        child:  IconButton(
-                          onPressed: (){
-                            getImage();
+                        Text(
+                          currentUserName,
+                          style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white
+                            ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            // addProfile(imageUrl);
                           }, 
-                          icon: Icon(
-                            Icons.add_a_photo,
-                            size: 35,
-                            color: Colors.white,
+                          icon: Icon(Icons.search,color: Colors.white,)
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(bottom: 20),
+                    child: Stack(
+                      children: [
+                        CircleAvatar(
+                          foregroundImage: NetworkImage(
+                            profilePic.toString(),
+                          ),
+                          radius: 80,
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          right: 20,
+                          child:  IconButton(
+                            onPressed: (){
+                              getImage();
+                            }, 
+                            icon: Icon(
+                              Icons.add_a_photo,
+                              size: 35,
+                              color: Colors.white,
+                            )
+                        
                           )
-                      
                         )
-                      )
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Container(
-            //color: Colors.green,
-            padding: EdgeInsets.all(30),
-            height: MediaQuery.of(context).size.height * .5,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Center(
-                  child: Text(
-                    'About me',
-                    style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),
+            Container(
+              //color: Colors.green,
+              padding: EdgeInsets.all(30),
+              height: MediaQuery.of(context).size.height * .5,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Center(
+                    child: Text(
+                      'About me',
+                      style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),
+                    ),
                   ),
-                ),
-                Divider(),
-                Text(
-                  'Name : '+ currentUserName,
-                  style: TextStyle(fontSize: 20)
-                ),
-                Text(
-                  'Mobile : '+ currentUserNumber,
-                  style: TextStyle(fontSize: 20)
-                ),
-                Text(
-                  'Email : ' + currentEmail,
-                  style: TextStyle(fontSize: 20)
-                ),
-              ],
-            ),
-          )
-        ],
+                  Divider(),
+                  Text(
+                    'Name : '+ currentUserName,
+                    style: TextStyle(fontSize: 20)
+                  ),
+                  Text(
+                    'Mobile : '+ currentUserNumber,
+                    style: TextStyle(fontSize: 20)
+                  ),
+                  Text(
+                    'Email : ' + currentEmail,
+                    style: TextStyle(fontSize: 20)
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

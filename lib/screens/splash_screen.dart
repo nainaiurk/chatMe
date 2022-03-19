@@ -79,7 +79,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               children: [
                 Hero(
                   tag: 'logo',
-                  child: Image.asset('smiley.png',height: 200,)
+                  child: Image.asset('assets/smiley.png',height: 200,)
                 ),
                 Hero(
                   tag: 'title',
