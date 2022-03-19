@@ -17,6 +17,7 @@ class _AllUserState extends State<AllUser> {
   String currentUserName = '';
   String currentUserNumber = '';
   String receiverName = '';
+  String receiverDp = '';
   @override
   void initState() {
     // TODO: implement initState
@@ -63,7 +64,7 @@ class _AllUserState extends State<AllUser> {
                     minVerticalPadding: 20,
                     leading: CircleAvatar(
                       radius: 20,
-                      // child: Text(currentUserName[0]),
+                      foregroundImage: NetworkImage(data[index].get('dp')),
                     ),
                     title: Text(
                       data[index].get('Name'),
@@ -116,6 +117,7 @@ class _AllUserState extends State<AllUser> {
     .get().then((snapshot) {
       setState(() {
         receiverName = snapshot.get('Name').toString();
+        receiverDp = snapshot.get('dp').toString();
       });
     });
     await firestore
@@ -123,6 +125,7 @@ class _AllUserState extends State<AllUser> {
     .doc(receiverEmail).set({
       'Name': receiverName,
       'Email':receiverEmail,
+      'dp': receiverDp,
       'timestamp': FieldValue.serverTimestamp(),
     });
   }

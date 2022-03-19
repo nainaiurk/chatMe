@@ -135,7 +135,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Stack(
                     children: [
                       CircleAvatar(
-                        foregroundImage: CachedNetworkImageProvider(
+                        foregroundImage: NetworkImage(
                           profilePic.toString(),
                         ),
                         radius: 80,
@@ -150,6 +150,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           icon: Icon(
                             Icons.add_a_photo,
                             size: 35,
+                            color: Colors.white,
                           )
                       
                         )

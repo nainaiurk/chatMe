@@ -22,6 +22,7 @@ class _ChatListState extends State<ChatList> {
   UserInformation user = UserInformation();
   FirebaseAuth auth = FirebaseAuth.instance;
   var currentUserName = '';
+  var profilepic = '';
   var currentEmail = '';
   var currentUserNumber = '';
   @override
@@ -60,6 +61,7 @@ class _ChatListState extends State<ChatList> {
                     children: [
                       CircleAvatar(
                         maxRadius: 40,
+                        foregroundImage: NetworkImage(profilepic),
                       ),
                       SizedBox(height: 10,),
                       Text(
@@ -225,13 +227,16 @@ class _ChatListState extends State<ChatList> {
                                   MaterialPageRoute(builder: (context)=>
                                     ChatDetails(
                                       receiverName: data[index].get("Name"),
-                                      receiverEmail: data[index].get("Email"),
+                                      receiverEmail: data[index].get("Email"), 
+                                      receiverdp: data[index].get("dp")
+                                      
                                     )
                                   )
                                 );
                               },
                               leading: CircleAvatar(
                                 radius: 30,
+                                foregroundImage: NetworkImage(data[index].get('dp')),
                                 // child: Text(currentUserName[0]),
                               ),
                               title: Text(
@@ -281,20 +286,20 @@ class _ChatListState extends State<ChatList> {
               ],
             ),
             Positioned(
-                  bottom: 40,
-                  right: 40,
-                  child: FloatingActionButton(
-                    backgroundColor: color1,
-                    child: Icon(
-                      Icons.add,
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                        context, 
-                        MaterialPageRoute(builder: (context)=>AllUser())
-                      );
-                    },
-                  ))
+              bottom: 40,
+              right: 40,
+              child: FloatingActionButton(
+                backgroundColor: color1,
+                child: Icon(
+                  Icons.add,
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context, 
+                    MaterialPageRoute(builder: (context)=>AllUser())
+                  );
+                },
+              ))
           ],
         ),
       ),
@@ -316,6 +321,7 @@ class _ChatListState extends State<ChatList> {
         setState(() {
           currentUserName = snapshot.get('Name').toString();
           currentUserNumber = snapshot.get('Mobile').toString();
+          profilepic = snapshot.get('dp').toString();
         });
       });
     }

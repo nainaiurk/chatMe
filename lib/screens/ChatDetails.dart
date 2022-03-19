@@ -6,9 +6,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ChatDetails extends StatefulWidget {
-  const ChatDetails({ Key? key,required this.receiverName,required this.receiverEmail}) : super(key: key);
+  const ChatDetails({ Key? key,required this.receiverName,required this.receiverEmail, required this.receiverdp}) : super(key: key);
   final String receiverName;
   final String receiverEmail;
+  final String receiverdp;
   @override
   _ChatDetailsState createState() => _ChatDetailsState();
 }
@@ -44,6 +45,7 @@ class _ChatDetailsState extends State<ChatDetails> {
           children: [
             CircleAvatar(
               radius: 20,
+              foregroundImage: NetworkImage(widget.receiverdp),
             ),
             SizedBox(width: 20,),
             Text(
